@@ -29,7 +29,7 @@ magento_db_name       = "magento"
 magento_db_username   = "magento"
 magento_db_password   = "magento1234"
 rds_engine_version    = "10.4"
-rds_multi_az          = false
+rds_multi_az          = true
 
 cache_engine               = "redis"
 cache_engine_version       = "5.0.6"
