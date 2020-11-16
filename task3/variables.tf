@@ -14,7 +14,7 @@ variable "common_tags" {
   default     = {}
 }
 
-variable "frontent_application_dns_name" {
+variable "frontend_application_dns_name" {
   type        = string
   description = "The frontend application dns name. It is used as an origin for S3 bucket CORS rule"
 }

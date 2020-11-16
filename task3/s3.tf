@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "input" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["PUT", "POST", "GET", "DELETE", "HEAD"]
-    allowed_origins = [var.frontent_application_dns_name]
+    allowed_origins = [var.frontend_application_dns_name]
     expose_headers  = ["ETag"]
     max_age_seconds = 0
   }
