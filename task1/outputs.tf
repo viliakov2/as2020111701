@@ -37,3 +37,13 @@ output "vpc_id" {
   description = "The VPC id"
   value       = aws_vpc.vpc.id
 }
+
+output "app_iam_role" {
+  description = "The Application IAM role"
+  value       = aws_iam_role.app.name
+}
+
+output "app_route_table_ids" {
+  description = "The private route table ids"
+  value       = aws_route_table.private.*.id
+}

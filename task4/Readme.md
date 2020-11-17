@@ -30,6 +30,8 @@ The described architecture is implemented using Terraform v0.13. Terraform state
 
 ### Running
 
+Make sure that you are in the task directory.
+
 To review changes:
 
 ```sh

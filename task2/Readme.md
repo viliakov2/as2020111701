@@ -77,6 +77,8 @@ Please check the [default variables](terraform.tfvars) and adjust it if needed.
 
 ### Running
 
+Make sure that you are in the task directory.
+
 To review changes:
 
 ```sh

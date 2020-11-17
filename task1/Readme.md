@@ -34,6 +34,8 @@ Please check the [default variables](terraform.tfvars) and adjust it if needed. 
 
 ### Running
 
+Make sure that you are in the task directory.
+
 To review changes:
 
 ```sh
@@ -47,6 +49,7 @@ terraform apply -auto-approve
 ```
 You will be asked to provide authentication keys for the Magento package repository and an SSH public key to access EC2 instances.
 The command ends up with displaying endpoints, one of them, `lb_dns_name` will contain a DNS name of the Application Load Balancer serving requests to Magento web application.
+!!! Please be informed that Terraform doesnt control installation of Magento, it only run AutoScaling Group, which user-data contains installation script. That means some time should pass after `terraform apply` before Magento software is provisioned and LoadBalancer starts serving traffic.
 
 To destroy resources:
 

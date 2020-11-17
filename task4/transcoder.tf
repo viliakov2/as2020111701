@@ -1,6 +1,6 @@
 resource "aws_elastictranscoder_pipeline" "convert_video" {
   input_bucket = aws_s3_bucket.input.bucket
-  name         = var.project_name
+  name         = "${var.project_name}-task4"
   role         = aws_iam_role.transcoder.arn
 
   content_config {
@@ -16,7 +16,7 @@ resource "aws_elastictranscoder_pipeline" "convert_video" {
 }
 
 resource "aws_iam_role" "transcoder" {
-  name = "${var.project_name}-transcoder"
+  name = "${var.project_name}-transcoder-task-4"
 
   assume_role_policy = <<EOF
 {
@@ -36,7 +36,7 @@ EOF
 }
 
 resource "aws_iam_policy" "transcoder" {
-  name        = "${var.project_name}-transcoder"
+  name        = "${var.project_name}-transcoder-task-4"
   path        = "/"
   description = "The transcoder policy"
 

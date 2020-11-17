@@ -16,7 +16,7 @@ resource "aws_s3_bucket_notification" "invoke_lambda" {
 }
 
 resource "aws_lambda_permission" "invoked_by_s3_event" {
-  statement_id  = "AllowExecutionFromS3Bucket"
+  statement_id  = "AllowExecutionFromS3BucketTask4"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.run_step_function.arn
   principal     = "s3.amazonaws.com"
