@@ -57,7 +57,7 @@ To destroy resources:
 terraform destroy -auto-approve
 ```
 
-Notes: If you want to reinstall the application from scratch, please delete the following parameters, which are not managed by Terraform code. Basically, they are used by `user-data` installing Magento.
+Notes: If you want to reinstall the application from scratch, please delete the following AWS Parameter Store parameters, which are not managed by Terraform code. Basically, they are used by `user-data` installing Magento.
 
 * /magento/env-php
 * /magento/installation-progress
@@ -74,13 +74,12 @@ Notes: If you want to reinstall the application from scratch, please delete the 
 * An EFS instance storing shared files.
 * Parameter Store objects containing Magento configuration parameters.
 * A VPC
-  * Internet Gateway.
+  * An Internet Gateway.
   * A public route table with the Internet Gateway serving the default route. Public subnets associated with the route table.
-  * A private route table with application subnets associated. The default route is served by a Nat Gateway.
-  * A private route table with database subnets associated. The default route is served by a Nat Gateway.
+  * A private route table per Availability Zone with application and database subnets associated. The default route is served by a Nat Gateway.
   * Resources in public subnets:
     * A subnet per Availability Zone.
-    * An Application Load Balancer proxying the traffic to application instances.
+    * An Application Load Balancer proxying HTTP traffic to application instances.
     * A Security Group for LoadBalancer allowing incoming HTTP traffic from the Internet and outgoing traffic to application instances.
     * A Nat Gateway per Availability Zone that provides access to the internet to resources from private networks within the same Availability Zone.
     * An Autoscaling Group for Bastion host to troubleshoot application and infrastructure issues, deployed to a public subnet.
@@ -91,7 +90,7 @@ Notes: If you want to reinstall the application from scratch, please delete the 
     * An EFS mount target per Availability Zone.
     * A Security Group allowing NFS traffic from application instances and all traffic from a bastion host to the EFS.
   * Resources in database private subnets:
-    * An database private subnet per Availability Zone.
+    * A database private subnet per Availability Zone.
     * A Multi-AZ instance of MariaDB RDS
     * A Security Group allowing MySQL traffic from application instances and all traffic from a bastion host to the RDS.
     * A Redis installation consisting of the primary and one replica instances with automatic failover.
@@ -100,7 +99,7 @@ Notes: If you want to reinstall the application from scratch, please delete the 
 ### Notes about the installation of Magento software.
 The installation of Magento is described in ASG [user-data](templates/app_user_data.sh).
 
-One of the node is supposed to be the main one, it will provision a Database, create a configuration file and stores it into AWS Parameter Store, from where it will be consumed by other nodes. Only when the main node completes its bootstrapping all other can start to install Magento and retrieve the configuration file from the parameter store. The installation is far from being ideal, the goal is to get a working instance of Magento.
+One of the node is supposed to be the main one, it will provision a database, create a configuration file and stores it into AWS Parameter Store, from where it will be consumed by other nodes. Only when the main node completes its bootstrapping all other can start to install Magento and retrieve the configuration file from the parameter store. The installation is far from being ideal, the goal is to get a working instance of Magento.
 
 ## Used guides
 * [Install Magento using Composer](https://devdocs.magento.com/guides/v2.4/install-gde/composer.html)

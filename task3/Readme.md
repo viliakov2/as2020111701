@@ -8,7 +8,7 @@ The video processing can be resource consuming, so it is preferable to implement
 
 The suggested solution should be considered as a Proof-Of-Concept proposal. Performance, monitoring, logging, input validation, and security considerations were not priorities for the solution, yet part of them was implemented, IAM access for an example.
 
-* Fronted part of the solution runs in a browser. By using Cognito Identity Pool with unauthenticated access enabled users can upload the video to an S3 input bucket. The S3 input bucket has a CORS rule configured which allows uploading to S3 only from the application domain.
+* Frontend part of the solution runs in a browser (Is not presented in the solution). By using Cognito Identity Pool with unauthenticated access enabled users can upload the video to an S3 input bucket. The S3 input bucket has a CORS rule configured which allows uploading to S3 only from the application domain.
 * When the video is uploaded to the S3 input bucket, the event notification invokes the Lambda function that runs an ElasticTranscoder job.
 * An ElasticTranscoder job processes incoming video: it transforms it according to a predefined preset (720p format by default) and creates a thumbnail and stores generated resources to the S3 output bucket.
 * When ElasticTrancoder job finishes the job status is sent to an SNS topic, which can be used to notify the application that video is processed and uploaded to the storage.
@@ -55,7 +55,7 @@ How to verify if the code works:
 * The status of the Job will be sent to the SNS topic and also can be checked on the Elastic Transcoder section of AWS Console.
 * The processed video and thumbnail are available via CloudFront distribution, its endpoint can be found in the output of `terraform apply`. Be informed that the CloudFront origin path is 'processed/' so a URI must not include it.
 
-The Transcoder has been tested against the `MP4` type of media files.
+The Transcoder job has been tested against the `MP4` type of media files.
 
 To destroy resources:
 
@@ -75,4 +75,4 @@ terraform destroy -auto-approve
 
 ### Lambda Functions code
 
-The Lambda function code is stored in [lambda](./lambda/) directory. They are written in Python and packed with Zip.
+The Lambda function code is stored in [lambda](./lambda/) directory. It is written in Python and packed with Zip.

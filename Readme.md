@@ -50,7 +50,7 @@ The external software (Magento) is managed, developed and maintained by an exter
     └── *.tf
 ```
 
-* Readme.md -  Documentation in Markdown format, solution folder Readme-s contain Architecture diagram and the description of the solution.
+* Readme.md -  Documentation in Markdown format, solution folder Readme-s contain Architecture diagram and the descriptions for the solution.
 * taskX/ - folders containing documentation and IaC templates for solutions.
 * *tf - files containing Terraform code to provision solution in AWS.
 * assets/ - architecture diagrams in JPG format.

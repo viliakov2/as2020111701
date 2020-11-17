@@ -11,8 +11,8 @@ The solution does not cover uploading and serving videos to and from customers.
 The suggested architecture:
 
 * An S3 bucket with event notification configured. When a new object is uploaded it triggers the Lambda function, which task is to run the Step function.
-* Step function starts and runs `Request Approval` Lambda function, which sends a message containing a link to the uploaded S3 object and Approval/Reject links to SNS topic. The `Request Approval` Lambda function is run asynchronously. The workflow stops here until the status of the `Request Approval` Lambda function will be received. The status will be updated by another function, invoked by a Content Manager action.
-* A content manager receives a message containing the uploaded S3 object, Approval, and Rejection links.
+* Step function starts and runs `Request Approval` Lambda function, which sends a message containing a information about the uploaded S3 object and Approval/Reject links to SNS topic. The `Request Approval` Lambda function is run asynchronously. The workflow stops here until the status of the `Request Approval` Lambda function will be received. The status will be updated by another function, invoked manually by a Content Manager, a person performing screening, action.
+* A Content Manager receives a message containing the uploaded S3 object, Approval, and Rejection links and "approve" or "reject" video.
 * The Approval and Rejection links are handled by API Gateway that proxies requests to `Receive Approval` Lambda function. The function will update the Step Function with the status and the workflow proceeds with running `Trigger Transcoder Job` Lambda function or ending the workflow depending on which link was invoked.
 
 ![Infrastructure](../assets/Architecture04.jpg)
@@ -69,7 +69,7 @@ terraform destroy -auto-approve
 * A Lambda function that sends a message containing Approval and Rejection links to the SNS topic. The function blocks Step Function execution until Approval/Rejection is received.
 * A Lambda function that triggers a Transcoder job if the approval is received.
 * A Lambda function that receives Approval/Rejection requests via API Gateway and resumes Step Function execution.
-* An SNS topic to send upload notifications to.
+* An SNS topic to send Approval/Rejection links to.
 
 ### Lambda Functions code
 
