@@ -3,7 +3,6 @@ resource "aws_cognito_identity_pool" "video" {
   allow_unauthenticated_identities = true
 }
 
-
 resource "aws_iam_role" "unauthenticated" {
   name = "${var.project_name}-cognito-unauthenticated"
 

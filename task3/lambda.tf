@@ -1,4 +1,3 @@
-
 resource "aws_lambda_function" "trigger_transcoder" {
   function_name    = "${var.project_name}-convert-video"
   filename         = "${path.module}/lambda/trigger_transcoder.zip"

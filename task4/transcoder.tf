@@ -13,11 +13,6 @@ resource "aws_elastictranscoder_pipeline" "convert_video" {
     storage_class = "ReducedRedundancy"
   }
 
-  notifications {
-    completed = aws_sns_topic.transcoder.arn
-    error     = aws_sns_topic.transcoder.arn
-  }
-
 }
 
 resource "aws_iam_role" "transcoder" {
@@ -67,11 +62,6 @@ resource "aws_iam_policy" "transcoder" {
                 "s3:ListBucket"
             ],
             "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "sns:Publish",
-            "Resource": "${aws_sns_topic.transcoder.arn}"
         }
     ]
 }
@@ -81,9 +71,4 @@ EOF
 resource "aws_iam_role_policy_attachment" "transcoder" {
   role       = aws_iam_role.transcoder.name
   policy_arn = aws_iam_policy.transcoder.arn
-}
-
-resource "aws_sns_topic" "transcoder" {
-  name = "${var.project_name}-transcoder-job-statuses"
-  tags = var.common_tags
 }

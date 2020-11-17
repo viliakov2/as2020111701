@@ -1,15 +1,16 @@
 # This directory contains Architecture proposal and Terraform code to provision a Magento based web portal in AWS
 
 ## Abstract
-The solution focuses on making the insfrastructure scalable, providing High Availability within an AWS Region.  Encryption, Monitoring, Logging, Alerting, Backup, and Disaster Recovery procedures haven't been considered in the solution. The installation of Magento application is made as simple as possible.
+
+The solution focuses on making the infrastructure scalable, providing High Availability within an AWS Region.  Encryption, Monitoring, Logging, Alerting, Backup, and Disaster Recovery procedures haven't been considered in the solution. The installation of the Magento application is made as simple as possible.
 
 
 ## Architecture
 
-It follows classical 3-tier setup for a web application. Resources are distributed across 2 Availability Zones to provide High Availability. Application deployed to EC2 instances managed by Autoscaling Group which provide options to scale out to handle the load when needed. MariaDB instance is provisioned with Multi-AZ option enabled and the application cache backed up by master/replica installation of Redis with automatic failover to ensure High Availability. To reduce latency of the web application CDN is introduced to serve static content and Magento Page/General caches are powered by Redis.
+It follows a classical 3-tier setup for a web application. Resources are distributed across 2 Availability Zones to provide High Availability. Application deployed to EC2 instances managed by Autoscaling Group which provides options to scale out to handle the load when needed. MariaDB instance is provisioned with Multi-AZ option enabled and the application cache backed up by master/replica installation of Redis with automatic failover to ensure High Availability. To reduce the latency of the web application CDN is introduced to serve static content and Magento Page/General caches are powered by Redis.
 
 The components:
-* An L7 Load Balancer proxying http requests to application instances.
+* An L7 Load Balancer proxying HTTP requests to application instances.
 * CDN serving static content.
 * Compute instances hosting Magento applications.
 * An NFS filesystem to share content among application instances.
@@ -22,16 +23,16 @@ The components:
 
 The described architecture is implemented using Terraform v0.13. Terraform state is stored locally.
 
-### Prerequisites:
+### Prerequisites
 
 * Terraform 0.13.
-* Configured access to an AWS account. It is assumed that full admin access is granted to AWS account.
+* Configured access to an AWS account. It is assumed that full admin access is granted to the AWS account.
 * Authentication keys to retrieve Magento packages. Can be obtained [here](https://devdocs.magento.com/guides/v2.4/install-gde/prereq/connect-auth.html)
 
-Please check the [default variables](terraform.tfvars) and adjust it if needed. If you want to connect to the bastion or/and application instance please copy the public part of your ssh key to `ec2_public_key` variable.
+Please check the [default variables](terraform.tfvars) and adjust it if needed. If you want to connect to the bastion or/and application instance please copy the public part of your SSH key to `ec2_public_key` variable.
 
 
-### Running:
+### Running
 
 To review changes:
 
@@ -44,8 +45,8 @@ To apply changes:
 ```sh
 terraform apply -auto-approve
 ```
-You will be asked to provide authentication keys for the Magento package repository and a ssh public key to access EC2 instances.
-The command ends up with displaying endpoints, one of them, `lb_dns_name` will contain a dns name of the Application Load Balancer serving requests to Magento web application.
+You will be asked to provide authentication keys for the Magento package repository and an SSH public key to access EC2 instances.
+The command ends up with displaying endpoints, one of them, `lb_dns_name` will contain a DNS name of the Application Load Balancer serving requests to Magento web application.
 
 To destroy resources:
 
@@ -53,7 +54,7 @@ To destroy resources:
 terraform destroy -auto-approve
 ```
 
-Notes: If you you to reinstall application from scratch, please delete the following parameters, which are not managed by Terraform code. Basically they are used by `user-data` installing Magento.
+Notes: If you want to reinstall the application from scratch, please delete the following parameters, which are not managed by Terraform code. Basically, they are used by `user-data` installing Magento.
 
 * /magento/env-php
 * /magento/installation-progress
@@ -64,7 +65,7 @@ Notes: If you you to reinstall application from scratch, please delete the follo
 ```
 
 
-### Resources:
+### Resources
 
 * A CloudFront distribution serving static content.
 * An EFS instance storing shared files.
@@ -82,9 +83,9 @@ Notes: If you you to reinstall application from scratch, please delete the follo
     * An Autoscaling Group for Bastion host to troubleshoot application and infrastructure issues, deployed to a public subnet.
   * Resources in application private subnets:
     * An application private subnet per Availability Zone.
-    * An Autoscaling Group to launch EC2 instances that host Magento application.
+    * An Autoscaling Group to launch EC2 instances that host the Magento application.
     * A Security Group allowing HTTP traffic from the Load Balancer and all traffic from a bastion host to application instances.
-    * A EFS mount target per Availability zone.
+    * An EFS mount target per Availability Zone.
     * A Security Group allowing NFS traffic from application instances and all traffic from a bastion host to the EFS.
   * Resources in database private subnets:
     * An database private subnet per Availability Zone.
@@ -93,11 +94,11 @@ Notes: If you you to reinstall application from scratch, please delete the follo
     * A Redis installation consisting of the primary and one replica instances with automatic failover.
     * A Security Group allowing Redis traffic from application instances and all traffic from a bastion host to the Redis.
 
-### Notes about installation of Magento software.
+### Notes about the installation of Magento software.
 The installation of Magento is described in ASG [user-data](templates/app_user_data.sh).
 
-One of the node is supposed to be main one, it will provision a Database, create a configuration file and stores it into AWS Parameter Store, from where it will be consumed by other nodes. Only when the main node completes its bootstraping all other can start to install Magento and retrieve configuration file from the parameter store. The installation is far from being ideal, the goal is to get working instance of Magento.
+One of the node is supposed to be the main one, it will provision a Database, create a configuration file and stores it into AWS Parameter Store, from where it will be consumed by other nodes. Only when the main node completes its bootstrapping all other can start to install Magento and retrieve the configuration file from the parameter store. The installation is far from being ideal, the goal is to get a working instance of Magento.
 
-## Used resources:
+## Used guides
 * [Install Magento using Composer](https://devdocs.magento.com/guides/v2.4/install-gde/composer.html)
 * [Configuration Guide](https://devdocs.magento.com/guides/v2.4/config-guide/bk-config-guide.html)
