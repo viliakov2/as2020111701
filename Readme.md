@@ -58,10 +58,10 @@ The external software (Magento) is managed, developed and maintained by an exter
 
 ## Solutions
 
-* [Task1](blob/initial/Task1/Readme.md)
-* [Task2](blob/initial/Task2/Readme.md)
-* [Task3](blob/initial/Task3/Readme.md)
-* [Task4](blob/initial/Task4/Readme.md)
+* [Task1](task1/Readme.md)
+* [Task2](task2/Readme.md)
+* [Task3](task3/Readme.md)
+* [Task4](task4/Readme.md)
 
 The Readme-s contain architecture proposals and how to provision infrastructure for the solutions.
 
