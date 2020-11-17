@@ -58,10 +58,10 @@ The external software (Magento) is managed, developed and maintained by an exter
 
 ## Solutions
 
-* [Task1](Task1/Readme.md)
-* [Task2](Task1/Readme.md)
-* [Task3](Task1/Readme.md)
-* [Task4](Task1/Readme.md)
+* [Task1](blob/initial/Task1/Readme.md)
+* [Task2](blob/initial/Task2/Readme.md)
+* [Task3](blob/initial/Task3/Readme.md)
+* [Task4](blob/initial/Task4/Readme.md)
 
 The Readme-s contain architecture proposals and how to provision infrastructure for the solutions.
 
@@ -77,7 +77,7 @@ The Readme-s contain architecture proposals and how to provision infrastructure 
     - Documenting the solution (120 minutes).
     - **Total**: 690 minutes
   - Notes:
-    - The most of the time I spent on trying to install Magento in multi-node mode and integrate it with related services and build an installation script to use within Autoscaling Group.
+    - Most of the time I spent trying to install Magento in multi-node mode and integrate it with related services and build an installation script to use within Autoscaling Group.
 
 2. **Task2**:
   - Timing:
@@ -90,7 +90,7 @@ The Readme-s contain architecture proposals and how to provision infrastructure 
 
 3. **Task3**:
   - Timing:
-    - Learning the approaches how to create thumbnails from videos: Lambda function, AWS Video Processing services (30 minutes)
+    - Learning the approaches on how to create thumbnails from videos: Lambda function, AWS Video Processing services (30 minutes)
     - Designing architecture including diagram creation (60 minutes);
     - Developing and testing IaC templates for related AWS infrastructure (160 minutes);
     - Documenting the solution (60 minutes).
